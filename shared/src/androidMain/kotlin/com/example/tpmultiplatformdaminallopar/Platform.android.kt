@@ -1,6 +1,7 @@
 package com.example.tpmultiplatformdaminallopar
 
 import android.content.Context
+import com.pokedex.db.AppDatabase
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import io.github.aakira.napier.DebugAntilog

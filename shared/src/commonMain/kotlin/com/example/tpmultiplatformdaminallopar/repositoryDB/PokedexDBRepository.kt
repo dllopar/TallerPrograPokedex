@@ -4,6 +4,7 @@ import com.example.tpmultiplatformdaminallopar.DatabaseDriverFactory
 import com.example.tpmultiplatformdaminallopar.data.model.NameData
 import com.example.tpmultiplatformdaminallopar.data.model.PictureData
 import com.example.tpmultiplatformdaminallopar.data.model.RandomData
+import com.pokedex.db.AppDatabase
 
 class PokedexDBRepository(databaseDriverFactory: DatabaseDriverFactory) {
 
