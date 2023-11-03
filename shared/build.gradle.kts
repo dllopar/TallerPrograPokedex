@@ -91,13 +91,7 @@ sqldelight{
         }
     }
 }
-/*
-sqldelight {
-    databases("AppDatabase") {
-        packageName = "com.pokedex.db"
-    }
-}
-*/
+
 
 android {
     namespace = "com.example.tpmultiplatformdaminallopar"
