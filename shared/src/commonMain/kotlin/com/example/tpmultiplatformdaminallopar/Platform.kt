@@ -1,6 +1,6 @@
 package com.example.tpmultiplatformdaminallopar
 
-import com.squareup.sqldelight.db.SqlDriver
+import app.cash.sqldelight.db.SqlDriver
 
 interface Platform {
     val name: String
