@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tpmultiplatformdaminallopar.data.PokedexRepository
 import com.example.tpmultiplatformdaminallopar.data.model.Pokedex
+import com.example.tpmultiplatformdaminallopar.data.model.PokedexResults
+import com.example.tpmultiplatformdaminallopar.repositoryDB.PokedexDBRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class PokedexViewModel(private val pokedexRepository: PokedexRepository) : ViewModel() {
+class PokedexViewModel(private val pokedexRepository: PokedexRepository, private val pokedexDBRepository: PokedexDBRepository) : ViewModel() {
 
     val pokedex = MutableLiveData<Pokedex>()
 
@@ -25,7 +27,7 @@ class PokedexViewModel(private val pokedexRepository: PokedexRepository) : ViewM
             Log.d("PokedexViewModel", "Error retrieving pokedex: ${throwable.message}")
         }
 
-    init {
+    /*init {
         viewModelScope.launch(coroutineExceptionHandler) {
             kotlin.runCatching {
                 pokedexRepository.get()
@@ -38,6 +40,38 @@ class PokedexViewModel(private val pokedexRepository: PokedexRepository) : ViewM
             }
 
         }
+    }*/
+
+    init {
+        viewModelScope.launch(coroutineExceptionHandler) {
+            val dataFromDB = pokedexDBRepository.get()
+
+            val resultsFromDB = dataFromDB.map {
+                PokedexResults(name = it.name.name, url = it.picture.url)
+            }
+
+            val pokedexFromDB = Pokedex(results = resultsFromDB)
+
+            if (pokedexFromDB.results.isNotEmpty()) {
+                _screenState.value = PokedexScreenState.ShowPokedex(pokedexFromDB)
+            }
+
+            kotlin.runCatching {
+                pokedexRepository.get()
+            }.onSuccess { pokedexFromApi ->
+                pokedex.postValue(pokedexFromApi)
+                _screenState.value = PokedexScreenState.ShowPokedex(pokedexFromApi)
+
+                pokedexFromApi.results.forEach { pokemon ->
+                    pokedexDBRepository.insert(pokemon.name, pokemon.url)
+                }
+            }.onFailure {
+                Log.d("PokedexViewModel", "Error retrieving pokedex: ${it.message}")
+                _screenState.value = PokedexScreenState.Error
+            }
+        }
     }
+
+
 
 }

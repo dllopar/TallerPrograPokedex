@@ -3,21 +3,13 @@ package com.example.tpmultiplatformdaminallopar.android
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.tpmultiplatformdaminallopar.Greeting
 import com.example.tpmultiplatformdaminallopar.android.core.PokedexAdapter
 import com.example.tpmultiplatformdaminallopar.android.databinding.ActivityMainBinding
 import com.example.tpmultiplatformdaminallopar.android.presentation.PokedexScreenState
@@ -39,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         setupRecyclerView()
 
-        // Listen to Retrofit response
+        //Retrofit response
         viewModel = ViewModelProvider(this, PokedexViewModelFactory())[PokedexViewModel::class.java]
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
@@ -71,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handlerError() {
-        Toast.makeText(this, "Error buscando la informacion", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Error en la conexion, verifique que haya internet", Toast.LENGTH_LONG).show()
     }
 
     private fun showLoading() {

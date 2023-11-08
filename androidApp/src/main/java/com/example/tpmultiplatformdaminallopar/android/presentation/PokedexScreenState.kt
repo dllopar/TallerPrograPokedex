@@ -8,6 +8,6 @@ sealed class PokedexScreenState {
 
     object Error : PokedexScreenState()
 
-    class ShowPokedex(val pokedex : Pokedex) : PokedexScreenState()
+    class ShowPokedex(val pokedex: Pokedex) : PokedexScreenState()
 
 }
